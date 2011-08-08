@@ -1,13 +1,15 @@
-var main = main || {};
-var utilities = utilities || {};
-var buffers = buffers || {};
+/* cubeBuffer.js */
 
-(function ($){
+"main" in window || (main = {});
+"utilities" in window || (utilities = {});
+"buffers" in window || (buffers = {});
+
+(function ($) {
 	
 	var bufferSize = 1;
 	
 	//our square buffer
-	buffers.cubeBuffer =  function (id,gl,cubePos) {
+	buffers.cubeBuffer =  function (id, gl, cubePos) {
 			
 		//the buffer object
 		var that = {};
@@ -39,7 +41,7 @@ var buffers = buffers || {};
 		that.cubeVertexNormalBuffer.itemSize = 3;
 		
 		//add a box at a certain position with type and light
-		that.addBox = function (pos,type,light) {
+		that.addBox = function (pos, type, light) {
 			
 			//pos = {x,y,z}
 			var cp = that.bufferPositionData.length /3;

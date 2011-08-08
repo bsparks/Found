@@ -1,8 +1,7 @@
-var main = main || {};
-var utilities = utilities || {};
+"main" in window || (main = {});
+"utilities" in window || (utilities = {});
 
-
-(function($){
+(function($) {
 	
 	//our main game loop setup
 	main.start = function () {
