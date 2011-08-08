@@ -1,0 +1,48 @@
+<html>
+
+	<head>
+		
+		<title>FOUND</title>
+		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+		
+		<!-- page styes -->
+		<style type="text/css">
+		    canvas {display:inline-block;}
+		    body {text-align:center;}
+		</style>
+		
+		
+		<!-- Libraries and Utilities -->
+		<script src="utilities/jquery.js"></script>
+		<script type="text/javascript" src="utilities/glMatrix-0.9.5.min.js"></script>
+		<script type="text/javascript" src="utilities/webgl-utils.js"></script>
+		<script type="text/javascript" src="lib/sylvester/sylvester.js"></script>
+		
+		
+		<!-- global objects to share between files -->
+		<script>var main = {}; var utilities = {}; var buffers = {};</script>
+		
+		<!-- external js files -->
+		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="utilities/utilities.js"></script>
+		<script type="text/javascript" src="utilities/input.js"></script>
+		
+		<!-- shaders -->
+		<script type="text/javascript" src="shaders/shaders.js"></script>
+		
+		<!-- buffers -->
+		<script type="text/javascript" src="buffers/buffers.js"></script>
+	
+	</head>
+	
+	<body>
+	    <canvas id="found" style="border: none;" width="800" height="500"></canvas>
+	</body>
+	
+	<script>
+		$(document).ready(function(){
+			main.start();
+		});
+	</script>
+
+</html>
