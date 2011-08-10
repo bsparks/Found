@@ -9,7 +9,7 @@
 		<style type="text/css">
 		    canvas {display:inline-block; box-shadow: 0 0 15px 15px #1f2503; background:#000;}
 		    body {background: #000; text-align:center;}
-			.canvas-background {position:absolute; top:0; left:0; right:0; bottom:0;  background: #000 url(images/jungle.jpg) center top no-repeat; opacity:0.6;}
+			.canvas-background {position:absolute; top:0; left:0; right:0; bottom:0;  background: #000 url(images/jungle.jpg) center top no-repeat; opacity:0.3;}
 		</style>
 		
 		
