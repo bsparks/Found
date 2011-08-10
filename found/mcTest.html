@@ -4,6 +4,24 @@
     <meta charset="utf-8">
 </head>
 <body>
+    <canvas id="mainCanvas" style="border: none;" width="800" height="600"></canvas>
+
+    <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script>window.hasOwnProperty("jQuery") || document.write('<script src="utilities/jquery.js">\x3C/script>')</script>
+    
+    <script type="text/javascript" src="utilities/glMatrix-0.9.5.min.js"></script>
+    <script type="text/javascript" src="utilities/webgl-utils.js"></script>
+	<script type="text/javascript" src="lib/sylvester/sylvester.js"></script>
+    
+    <script type="text/javascript" src="game.js"></script>
+    
+    <!-- ready to begin -->
+    <script>
+        $(document).ready(function() {
+            game.start($("#mainCanvas"));
+        });
+    </script>
 
 </body>
 </html>
