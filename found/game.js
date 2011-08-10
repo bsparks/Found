@@ -12,45 +12,45 @@ window.hasOwnProperty("utilities") || (window.utilities = {});
     // there can only ever be one instance of a game
     var gameInstance = null;
     
+    var modelViewMat, projectionMat;
     var initGL = function() {
+        var canvas = game.instance().canvas;
+        
         try {
-            gameInstance.gl = gameInstance.canvas[0].getContext("experimental-webgl");
+            var gl = gameInstance.gl = canvas.get(0).getContext("experimental-webgl");            
             
             // set the viewport to match the element
-            gameInstance.gl.viewportWidth = gameInstance.canvas.width();
-            gameInstance.gl.viewportHeight = gameInstance.canvas.height();
+            gl.viewportWidth = canvas.width();
+            gl.viewportHeight = canvas.height();
             
             // clear and enable DEPTH_TEST mode for drawing
-            gameInstance.gl.clearColor(0.0, 0.0, 0.0, 1.0);
-            gameInstance.gl.enable(gameInstance.gl.DEPTH_TEST);
+            gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        	gl.clearDepth(1.0);
+        	
+        	gl.enable(gl.DEPTH_TEST);
+        	gl.enable(gl.BLEND);
+        	gl.enable(gl.CULL_FACE);
+        	
+        	projectionMat = mat4.create();
+        	mat4.perspective(45.0, gl.viewportWidth/gl.viewportHeight, 1.0, 4096.0, projectionMat);
+        	modelViewMat = mat4.create();
         } catch(e) {
             alert("Cannot start WebGL! " + e);
         }
     };
     
-    var update = function(timeElapsed) {
+    var update = function(tick) {
         // do non-rendering frame updates
     };
     
-    var draw = function(timeElapsed) {
+    var draw = function(tick) {
         var gl = game.instance().gl;
         
         //Reset the viewport and Clear the frame
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    };
-    
-    var lastTime = 0; // used for timeElapsed
-    var tick = function() {
-        var timeElapsed; // time between frames
-        
-        requestAnimFrame(tick);
-        
-        lastTime = timeElapsed = (new Date().getTime() - lastTime);
-        
-        update(timeElapsed);
-        draw(timeElapsed);
-    };   
+    }; 
     
     game.instance = function($canvas) {
         var that;
@@ -71,7 +71,13 @@ window.hasOwnProperty("utilities") || (window.utilities = {});
         
         initGL();
         
-        tick();
+        // this monitors each animation frame from jquery plugin
+        $canvas.requestAnimation(function(event) {            
+            update(event);
+            draw(event);
+        });
+        
+        console.log(game.tick);
     };
     
 })(jQuery, window.utilities);
