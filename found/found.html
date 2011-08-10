@@ -7,9 +7,8 @@
 		
 		<!-- page styes -->
 		<style type="text/css">
-		    canvas {display:inline-block; box-shadow: 0 0 15px 15px #1f2503; background:#000;}
-		    body {background: #000; text-align:center;}
-			.canvas-background {position:absolute; top:0; left:0; right:0; bottom:0;  background: #000 url(images/jungle.jpg) center top no-repeat; opacity:0.6;}
+		    canvas {display:inline-block; box-shadow: 0 0 15px #000;}
+		    body {text-align:center; background: #000 url(images/jungle.jpg) center top no-repeat;}
 		</style>
 		
 		
@@ -28,12 +27,9 @@
 		<script type="text/javascript" src="utilities/utilities.js"></script>
 		<script type="text/javascript" src="utilities/input.js"></script>
 		
-		<!-- shaders -->
-		<script type="text/javascript" src="shaders/shaders.js"></script>
-		
 		<!-- buffers -->
 		<script type="text/javascript" src="buffers/cubeBuffer.js"></script>
-		<script type="text/javascript" src="buffers/sphereBuffer.js"></script>
+        <script type="text/javascript" src="buffers/sphereBuffer.js"></script>
 		
 		<!-- maps -->
 		<script type="text/javascript" src="maps/map.js"></script>
@@ -41,8 +37,7 @@
 	</head>
 	
 	<body>
-		<div class="canvas-background"></div>
-	    <canvas id="found" style="border: none;" width="1000" height="600"></canvas>
+	    <canvas id="found" style="border: none;" width="800" height="500"></canvas>
 	</body>
 	
 	<script>

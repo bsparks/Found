@@ -1,7 +1,9 @@
-"main" in window || (main = {});
-"utilities" in window || (utilities = {});
+// main.js
 
-(function($) {
+window.hasOwnProperty("main") || (window.main = {});
+window.hasOwnProperty("utilities") || (window.utilities = {});
+
+(function($, main, utils, undefined) {
 	
 	//our main game loop setup
 	main.start = function () {
@@ -39,7 +41,7 @@
 		var pMatrix = mat4.create();
 		
 		//set initial POSITION ( x,y,z, yaw, pitch )
-		utilities.input.init(0,3,7,0,0);
+		utils.input.init(0,3,7,0,0);
 	    	
 		//set the global time
 		var lastTime = 0;
@@ -53,7 +55,7 @@
 				var elapsed = timeNow - lastTime;
 				
 				//update the players position
-	            utilities.input.updatePosition(elapsed);
+	            utils.input.updatePosition(elapsed);
 				
 				//rotate the clouds
 				cloudRotation = (cloudRotation + cloudSpeed) % 360;
@@ -86,8 +88,12 @@
 		
 		//Get all of our shaders and build them into the shaderProgram
 	    var initShaders = function () {
-	        var fragmentShader = utilities.getShader(gl, "shader-fs");
-	        var vertexShader = utilities.getShader(gl, "shader-vs");
+            // load shaders from files
+            utils.loadShader("fragment.shader", utils.SHADER_TYPE_FRAGMENT);
+            utils.loadShader("vertex.shader", utils.SHADER_TYPE_VERTEX);
+            
+	        var fragmentShader = utils.getShader(gl, "fragment.shader");
+	        var vertexShader = utils.getShader(gl, "vertex.shader");
 	
 	        shaderProgram = gl.createProgram();
 	        gl.attachShader(shaderProgram, vertexShader);
@@ -278,8 +284,8 @@
 			//====> lets bind the atmosphere and clouds		
 			mat4.identity(mvMatrix);
 			
-			mat4.rotate(mvMatrix, utilities.degToRad(-(utilities.input.pitch)), [1, 0, 0]);
-	        mat4.rotate(mvMatrix, utilities.degToRad(-(utilities.input.yaw)), [0, 1, 0]);
+			mat4.rotate(mvMatrix, utils.degToRad(-(utils.input.pitch)), [1, 0, 0]);
+	        mat4.rotate(mvMatrix, utils.degToRad(-(utils.input.yaw)), [0, 1, 0]);
 
 			setMatrixUniforms();
 			
@@ -311,7 +317,7 @@
 			
 			
 			//now the clouds
-			mat4.rotate(mvMatrix, utilities.degToRad(-(cloudRotation)), [0, 1, 0]);
+			mat4.rotate(mvMatrix, utils.degToRad(-(cloudRotation)), [0, 1, 0]);
 			
 			setMatrixUniforms();
 			
@@ -337,7 +343,7 @@
 			
 			gl.activeTexture(gl.TEXTURE0);
 		    gl.bindTexture(gl.TEXTURE_2D, textures.cloudsFar);
-			mat4.rotate(mvMatrix, utilities.degToRad(-(cloudRotationFar-cloudRotation)), [0, 1, 0]);
+			mat4.rotate(mvMatrix, utils.degToRad(-(cloudRotationFar-cloudRotation)), [0, 1, 0]);
 			setMatrixUniforms();
 			
 			gl.bindBuffer(gl.ARRAY_BUFFER, cloudBufferFar.sphereVertexPositionBuffer);
@@ -358,9 +364,9 @@
 			// Move the mvMatrix with reference to our position and view
 	        mat4.identity(mvMatrix);
 		    
-			mat4.rotate(mvMatrix, utilities.degToRad(-(utilities.input.pitch)), [1, 0, 0]);
-	        mat4.rotate(mvMatrix, utilities.degToRad(-(utilities.input.yaw)), [0, 1, 0]);
-	        mat4.translate(mvMatrix, [-utilities.input.x, -utilities.input.y, -utilities.input.z]);
+			mat4.rotate(mvMatrix, utils.degToRad(-(utils.input.pitch)), [1, 0, 0]);
+	        mat4.rotate(mvMatrix, utils.degToRad(-(utils.input.yaw)), [0, 1, 0]);
+	        mat4.translate(mvMatrix, [-utils.input.x, -utils.input.y, -utils.input.z]);
 			
 			setMatrixUniforms();
 			
@@ -400,7 +406,7 @@
 		// Main GAME LOOP LOGIC   : sets up the next Tick / uses keyboard input / drawScene / animate (more game logic)
 		var tick= function () {
 	        requestAnimFrame(tick);
-	        utilities.input.applyKeyInput();
+	        utils.input.applyKeyInput();
 	        drawScene();
 	        animate();
 	    };
@@ -435,9 +441,9 @@
 		
 		//============= Start the Game Loop ================
 		
-		webGLStart(document.getElementById('found'));
+		webGLStart($("#found")[0]);
 		
 
 	};//end:setup
 	
-})(jQuery)
+})(jQuery, window.main, window.utilities);

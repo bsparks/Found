@@ -1,14 +1,35 @@
-var main = main || {};
-var utilities = utilities || {};
+// utilities.js
+// common utils
 
-(function($){
+window.hasOwnProperty("main") || (window.main = {});
+window.hasOwnProperty("utilities") || (window.utilities = {});
+
+(function($, utils, main, undefined) {
     
-	
-	//=========================== GENERAL UTILITIES
-	
+    utils.SHADER_TYPE_FRAGMENT = "x-shader/x-fragment";
+    utils.SHADER_TYPE_VERTEX = "x-shader/x-vertex";
+    
+    // make sure we have a global cache, if not create it
+    // todo: move this? (used to be in shaders.js)
+    main.hasOwnProperty("shaders") || (main.shaders = {});
+    
+	utils.loadShader = function(file, type) {
+        var cache, shader;
+        
+        $.ajax({
+            async: false, // need to wait... todo: deferred?
+            url: "shaders/" + file, //todo: use global config for shaders folder?
+            success: function(result) {
+               cache = {script: result, type: type}; 
+            }
+        });
+        
+        // store in global cache
+        main.shaders[file] = cache;
+	};
 	
 	//get shader function
-    utilities.getShader = function (gl, id) {
+    utils.getShader = function (gl, id) {
         
 		//get the shader object from our main.shaders repository
 		var shaderObj = main.shaders[id];
@@ -42,7 +63,7 @@ var utilities = utilities || {};
 
 	
 	//degrees to radians
-	utilities.degToRad = function (degrees) {
+	utils.degToRad = function (degrees) {
         return degrees * Math.PI / 180;
     };//end:degToRad
     
@@ -54,22 +75,19 @@ var utilities = utilities || {};
 	var mvMatrixStack = [];
 	
 	//push a transformation
-	utilities.mvPushMatrix = function () {
+	utils.mvPushMatrix = function () {
 	    var copy = mat4.create();
 	    mat4.set(mvMatrix, copy);
 	    mvMatrixStack.push(copy);
   	};
 	
 	//pop a transformation
-	utilities.mvPopMatrix = function () {
+	utils.mvPopMatrix = function () {
 	    if (mvMatrixStack.length == 0) {
 	      throw "Invalid popMatrix!";
 	    }
 	    mvMatrix = mvMatrixStack.pop();
 	};
-	
-	
-	
-	
-})(jQuery)
+    
+})(jQuery, window.utilities, window.main);
 
