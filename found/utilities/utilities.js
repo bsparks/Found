@@ -6,6 +6,27 @@ window.hasOwnProperty("utilities") || (window.utilities = {});
 
 (function($, utils, main, undefined) {
     
+    // cross browser-ish context getter
+    // options might be like: {antialias: false}
+    utils.get3DContext = function(canvas, options) {
+        var contextList = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"],
+            context = null;
+            
+        if (canvas.getContext) {
+            for(var i = 0; i < contextList.length; ++i) {
+                try {
+                    context = canvas.getContext(contextList[i], options);
+                    if(context !== null) {
+                        return context;
+                    }
+                } catch(ex) { 
+                    alert("Unable to get a 3D context! Browser may not support WebGL!");
+                }
+            }
+        }
+        return null;
+    };
+    
     utils.SHADER_TYPE_FRAGMENT = "x-shader/x-fragment";
     utils.SHADER_TYPE_VERTEX = "x-shader/x-vertex";
     

@@ -3,7 +3,7 @@
 
 window.hasOwnProperty("utilities") || (window.utilities = {});
 
-(function($, util, undefined) {
+(function($, utils, undefined) {
     
     window.hasOwnProperty("shaders") || (window.shaders = {});
     
@@ -17,7 +17,7 @@ window.hasOwnProperty("utilities") || (window.utilities = {});
         var canvas = game.instance().canvas;
         
         try {
-            var gl = gameInstance.gl = canvas.get(0).getContext("experimental-webgl");            
+            var gl = gameInstance.gl = utils.get3DContext(canvas.get(0));            
             
             // set the viewport to match the element
             gl.viewportWidth = canvas.width();
@@ -26,15 +26,15 @@ window.hasOwnProperty("utilities") || (window.utilities = {});
             // clear and enable DEPTH_TEST mode for drawing
             gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
             gl.clearColor(0.0, 0.0, 0.0, 1.0);
-        	gl.clearDepth(1.0);
-        	
-        	gl.enable(gl.DEPTH_TEST);
-        	gl.enable(gl.BLEND);
-        	gl.enable(gl.CULL_FACE);
-        	
-        	projectionMat = mat4.create();
-        	mat4.perspective(45.0, gl.viewportWidth/gl.viewportHeight, 1.0, 4096.0, projectionMat);
-        	modelViewMat = mat4.create();
+            gl.clearDepth(1.0);
+            
+            gl.enable(gl.DEPTH_TEST);
+            gl.enable(gl.BLEND);
+            gl.enable(gl.CULL_FACE);
+            
+            projectionMat = mat4.create();
+            mat4.perspective(45.0, gl.viewportWidth/gl.viewportHeight, 1.0, 4096.0, projectionMat);
+            modelViewMat = mat4.create();
         } catch(e) {
             alert("Cannot start WebGL! " + e);
         }
